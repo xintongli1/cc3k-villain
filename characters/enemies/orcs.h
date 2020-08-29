@@ -1,13 +1,13 @@
-#ifndef _ELF_
-#define _ELF_
+#ifndef _ORCS_
+#define _ORCS_
 #include <iostream>
 #include "enemy.h"
 
-class Elf:public Enemy{
+class Orcs:public Enemy{
 
 
 public:
-  Elf(int row, int col,int chamber);
+  Orcs(int row, int col,int chamber);
   void attack(std::shared_ptr<Characters> c)override;
 };
 
