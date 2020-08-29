@@ -641,55 +641,6 @@ for(int i = 0; i < 20; i++) {
     }
 }
 
-void Floor::setObservers(shared_ptr<Characters> chrct){
-    int r = chrct->getRow();
-    int c = chrct->getCol();
-    int ch = chrct->getChamberNumber();
-
-    auto enemies = chambers[ch].enemies;
-    auto cells = chambers[ch].cells;
-    auto items = chambers[ch].items;
-    auto stairs = chambers[ch].stairs;
-
-    for (int i = r - 1; i < r + 2; ++i){
-        for (int j = c - 1; j < c + 2; ++j){
-            if (! (i == r && j == c) ){
-                if (enemies.size () > 0){
-                    auto enemy = find_if(enemies.begin(), enemies.end(), [i, j](shared_ptr<Enemy> e){
-                            return e->getRow() == i && e->getCol() == j;
-                            });
-                    if (*enemy != enemies.back()){
-                        if ((*enemy)->isDead()){
-                            chambers[ch].enemies.erase(enemy);
-                        }
-                        else chrct->attach(*enemy);
-                    }
-                    else{
-                        if ((*enemy)->getRow() == i && (*enemy)->getCol() == j){
-                            if ((*enemy)->isDead()){
-                                chambers[ch].enemies.erase(enemy);
-                            }
-                            else chrct->attach(*enemy);
-                        }
-                    }
-                }
-                
-                if (cells.count(i) && cells[i].count(j)){
-                    chrct->attach(cells[i][j]);
-                }
-
-                if (items.size() > 0 && items.count(i) && items[i].count(j)){
-                    chrct->attach(items[i][j]);
-                }
-
-                if (stairs && stairs->getRow() == i && stairs->getCol() == j){
-                    chrct->attach(stairs);
-                }
-            }
-
-        }
-    }
-}
 
 void Floor::PCAction(char mode, const std::string & direction){
 	// ----sort enemies----
